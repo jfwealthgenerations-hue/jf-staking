@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JF Staking</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{margin:0;font-family:Arial;background:#0b0f14;color:#fff}
+.container{max-width:520px;margin:auto;padding:20px}
+.card{background:#111827;border-radius:12px;padding:16px;margin-bottom:16px}
+h2,h3{margin:0 0 10px}
+button,input,select{width:100%;padding:12px;margin-top:8px;border-radius:8px;border:none}
+button{background:#2563eb;color:#fff;font-weight:bold;cursor:pointer}
+.muted{color:#9ca3af;font-size:13px}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="card">
+<h2>JF Staking</h2>
+<p class="muted">Lock JF and earn fixed rewards. Unlock date only.</p>
+<button onclick="connect()">Connect Wallet</button>
+<p id="wallet" class="muted"></p>
+</div>
+
+<div class="card">
+<h3>Stake</h3>
+
+<select id="pool">
+<option value="0">30 days</option>
+<option value="1">60 days</option>
+<option value="2">90 days</option>
+<option value="3">120 days</option>
+<option value="4">180 days</option>
+</select>
+
+<input id="amount" placeholder="Amount in JF">
+
+<button onclick="approve()">Approve</button>
+<button onclick="stake()">Stake</button>
+</div>
+
+<div class="card">
+<h3>Your Position</h3>
+<p>Staked: <span id="staked">-</span></p>
+<p>Unlock date: <span id="unlock">-</span></p>
+<button onclick="withdraw()">Withdraw</button>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script>
+const STAKING_ADDRESS = "0x23ebc035F733fdb99c8248B2b22C351AD9207998";
+const TOKEN_ADDRESS   = "0x2338c5AD75967dAC2fF988FC3488109eC2406dfE";
+
+const stakingABI = [
+ "function stake(uint256,uint256)",
+ "function withdraw(uint256)",
+ "function stakedAmount(uint256,address) view returns(uint256)",
+ "function unlockTimeOf(uint256,address) view returns(uint64)"
+];
+
+const erc20ABI = [
+ "function approve(address,uint256)",
+ "function balanceOf(address) view returns(uint256)",
+ "function decimals() view returns(uint8)"
+];
+
+let provider, signer, staking, token, user, decimals;
+
+async function connect(){
+ provider=new ethers.providers.Web3Provider(window.ethereum);
+ await provider.send("eth_requestAccounts",[]);
+ signer=provider.getSigner();
+ user=await signer.getAddress();
+ staking=new ethers.Contract(STAKING_ADDRESS,stakingABI,signer);
+ token=new ethers.Contract(TOKEN_ADDRESS,erc20ABI,signer);
+ decimals=await token.decimals();
+ document.getElementById("wallet").innerText=user;
+ load();
+}
+
+async function approve(){
+ let amt=document.getElementById("amount").value;
+ await token.approve(STAKING_ADDRESS,ethers.utils.parseUnits(amt,decimals));
+}
+
+async function stake(){
+ let pid=document.getElementById("pool").value;
+ let amt=document.getElementById("amount").value;
+ await staking.stake(pid,ethers.utils.parseUnits(amt,decimals));
+ load();
+}
+
+async function withdraw(){
+ let pid=document.getElementById("pool").value;
+ await staking.withdraw(pid);
+ load();
+}
+
+async function load(){
+ let pid=document.getElementById("pool").value;
+ let s=await staking.stakedAmount(pid,user);
+ document.getElementById("staked").innerText=ethers.utils.formatUnits(s,decimals)+" JF";
+ let t=await staking.unlockTimeOf(pid,user);
+ document.getElementById("unlock").innerText=t==0?"-":new Date(t*1000).toLocaleDateString();
+}
+</script>
+
+</body>
+</html>
