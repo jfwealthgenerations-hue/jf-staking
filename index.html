@@ -22,7 +22,7 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
   color:var(--text);
   background:
     radial-gradient(900px 600px at 20% 10%, rgba(245,208,111,.18), transparent 55%),
@@ -47,26 +47,38 @@ body{
 }
 
 .brand{
-  display:flex;align-items:center;gap:12px;
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
-.logo{
-  width:42px;height:42px;border-radius:14px;
-  background:linear-gradient(135deg,var(--gold1),var(--gold2));
-  box-shadow:0 10px 30px rgba(245,208,111,.18);
-  display:grid;place-items:center;
-  color:#111;
-  font-weight:900;
-  letter-spacing:.5px;
+
+.brand img{
+  width:56px;
+  height:56px;
+  border-radius:16px;
+  object-fit:contain;
+  background:#000;
+  padding:6px;
+  box-shadow:0 12px 35px rgba(245,208,111,.35);
 }
-.brand h1{font-size:18px;margin:0}
-.brand p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+
+.brand h1{
+  margin:0;
+  font-size:18px;
+}
+
+.brand p{
+  margin:4px 0 0;
+  font-size:12px;
+  color:var(--muted);
+}
 
 .grid{
   display:grid;
-  grid-template-columns: 1.05fr .95fr;
+  grid-template-columns:1.05fr .95fr;
   gap:14px;
 }
-@media (max-width:860px){
+@media(max-width:860px){
   .grid{grid-template-columns:1fr}
 }
 
@@ -75,7 +87,7 @@ body{
   border:1px solid var(--stroke);
   border-radius:18px;
   padding:16px;
-  backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
 }
 
 .card h2{
@@ -88,9 +100,6 @@ body{
 
 .hr{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
 
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.col{flex:1;min-width:180px}
-
 label{
   display:block;
   font-size:12px;
@@ -98,288 +107,178 @@ label{
   margin-bottom:6px;
 }
 
-input, select{
+input,select{
   width:100%;
-  padding:12px 12px;
+  padding:12px;
   border-radius:12px;
   border:1px solid rgba(255,255,255,.10);
   background:rgba(10,14,22,.55);
   color:var(--text);
-  outline:none;
 }
-input::placeholder{color:rgba(244,246,255,.38)}
-select{appearance:none}
 
 .btn{
   width:100%;
-  padding:12px 12px;
+  padding:12px;
   border:none;
   border-radius:12px;
   font-weight:800;
   cursor:pointer;
-  transition:.15s transform,.15s opacity;
 }
-.btn:active{transform:scale(.99)}
+
 .btn.primary{
   background:linear-gradient(135deg,var(--gold1),var(--gold2));
-  color:#161616;
+  color:#111;
 }
+
 .btn.soft{
   background:rgba(255,255,255,.08);
-  color:var(--text);
+  color:#fff;
   border:1px solid rgba(255,255,255,.10);
 }
+
 .btn.blue{
   background:linear-gradient(135deg,#60A5FA,#2563EB);
   color:#fff;
 }
 
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:7px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.06);
-  font-size:12px;color:var(--muted);
-}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25)}
-.dot.ok{background:var(--ok)}
-.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-.small{font-size:12px;color:var(--muted);line-height:1.45}
-.kv{
-  display:grid;
-  grid-template-columns: 120px 1fr;
-  gap:8px 10px;
-  align-items:center;
-}
-.kv div{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.18)}
-.kv .k{color:rgba(244,246,255,.55);font-size:12px}
-.kv .v{font-weight:800}
 .notice{
   font-size:12px;
-  color:rgba(244,246,255,.72);
-  border:1px dashed rgba(245,208,111,.35);
-  background:rgba(245,208,111,.06);
-  padding:10px 12px;
-  border-radius:14px;
+  padding:10px;
+  border-radius:12px;
+  background:rgba(245,208,111,.08);
+  border:1px dashed rgba(245,208,111,.4);
+  color:#f5e7b2;
 }
-.err{color:#fecaca;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}
+
+.kv{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:8px;
+}
+
+.kv div{
+  padding:10px;
+  border-radius:12px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.small{font-size:12px;color:var(--muted)}
+.mono{font-family:monospace}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo">JF</div>
-      <div>
-        <h1>JF Staking</h1>
-        <p>Lock JF · Fixed rewards · <b>Unlock date only</b></p>
-      </div>
-    </div>
-
-    <div class="pill">
-      <span class="dot" id="statusDot"></span>
-      <span id="statusText">Not connected</span>
+<div class="topbar">
+  <div class="brand">
+    <img src="logo.png" alt="Just Funny Logo">
+    <div>
+      <h1>JF Staking</h1>
+      <p>Lock JF · Fixed rewards · Unlock date only</p>
     </div>
   </div>
+</div>
 
-  <div class="grid">
+<div class="grid">
 
-    <div class="card">
-      <h2>Wallet</h2>
-      <div class="row">
-        <div class="col">
-          <div class="small">Connected address</div>
-          <div class="mono" id="walletAddr" style="margin-top:8px;opacity:.9">-</div>
-        </div>
-        <div class="col" style="min-width:220px">
-          <button class="btn primary" onclick="connect()">Connect Wallet</button>
-          <button class="btn soft" style="margin-top:8px" onclick="switchNetwork()">Switch to BSC</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="notice">
-        Rewards are fixed per lock period. This page shows <b>unlock date only</b> (no reward preview).
-      </div>
-
-      <div id="msg" class="notice err" style="display:none;margin-top:10px"></div>
-
-      <div class="hr"></div>
-
-      <div class="small">
-        Contract (staking): <span class="mono" id="stakingAddr"></span><br/>
-        Token (JF): <span class="mono" id="tokenAddr"></span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Stake</h2>
-
-      <label>Lock period</label>
-      <select id="pool">
-        <option value="0">30 days</option>
-        <option value="1">60 days</option>
-        <option value="2">90 days</option>
-        <option value="3">120 days</option>
-        <option value="4">180 days</option>
-      </select>
-
-      <label style="margin-top:10px">Amount (JF)</label>
-      <input id="amount" placeholder="e.g. 100" inputmode="decimal" />
-
-      <div class="row" style="margin-top:10px">
-        <div class="col"><button class="btn soft" onclick="approve()">Approve</button></div>
-        <div class="col"><button class="btn blue" onclick="stake()">Stake</button></div>
-      </div>
-
-      <div class="hr"></div>
-
-      <h2>Your Position</h2>
-      <div class="kv">
-        <div class="k">Staked</div>
-        <div class="v" id="staked">-</div>
-        <div class="k">Unlock date</div>
-        <div class="v" id="unlock">-</div>
-      </div>
-
-      <button class="btn soft" style="margin-top:10px" onclick="withdraw()">Withdraw</button>
-      <div class="small" style="margin-top:8px">Withdraw is available only after the unlock date.</div>
-    </div>
-
+<div class="card">
+  <h2>Wallet</h2>
+  <button class="btn primary" onclick="connect()">Connect Wallet</button>
+  <div class="hr"></div>
+  <div class="notice">
+    Rewards are fixed. This page shows unlock date only.
   </div>
+</div>
+
+<div class="card">
+  <h2>Stake</h2>
+
+  <label>Lock period</label>
+  <select id="pool">
+    <option value="0">30 days</option>
+    <option value="1">60 days</option>
+    <option value="2">90 days</option>
+    <option value="3">120 days</option>
+    <option value="4">180 days</option>
+  </select>
+
+  <label style="margin-top:10px">Amount (JF)</label>
+  <input id="amount" placeholder="100">
+
+  <button class="btn soft" style="margin-top:10px" onclick="approve()">Approve</button>
+  <button class="btn blue" style="margin-top:8px" onclick="stake()">Stake</button>
+
+  <div class="hr"></div>
+
+  <h2>Your Position</h2>
+  <div class="kv">
+    <div class="small">Staked</div><div id="staked">-</div>
+    <div class="small">Unlock date</div><div id="unlock">-</div>
+  </div>
+
+  <button class="btn soft" style="margin-top:10px" onclick="withdraw()">Withdraw</button>
+</div>
+
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script>
-const STAKING_ADDRESS = "0x23ebc035F733fdb99c8248B2b22C351AD9207998";
-const TOKEN_ADDRESS   = "0x2338c5AD75967dAC2fF988FC3488109eC2406dfE";
-
-document.getElementById("stakingAddr").innerText = STAKING_ADDRESS;
-document.getElementById("tokenAddr").innerText   = TOKEN_ADDRESS;
-
-const stakingABI = [
- "function stake(uint256,uint256)",
- "function withdraw(uint256)",
- "function stakedAmount(uint256,address) view returns(uint256)",
- "function unlockTimeOf(uint256,address) view returns(uint64)"
+const STAKING_ADDRESS="0x23ebc035F733fdb99c8248B2b22C351AD9207998";
+const TOKEN_ADDRESS="0x2338c5AD75967dAC2fF988FC3488109eC2406dfE";
+const stakingABI=[
+"function stake(uint256,uint256)",
+"function withdraw(uint256)",
+"function stakedAmount(uint256,address)view returns(uint256)",
+"function unlockTimeOf(uint256,address)view returns(uint64)"
 ];
-const erc20ABI = [
- "function approve(address,uint256)",
- "function decimals() view returns(uint8)"
+const erc20ABI=[
+"function approve(address,uint256)",
+"function decimals()view returns(uint8)"
 ];
 
-let provider, signer, staking, token, user, decimals;
-
-function setMsg(t){
-  const el=document.getElementById("msg");
-  if(!t){el.style.display="none"; el.innerText=""; return;}
-  el.style.display="block"; el.innerText=t;
-}
-function setStatus(ok, text){
-  document.getElementById("statusDot").className = "dot" + (ok ? " ok":"");
-  document.getElementById("statusText").innerText = text;
-}
-
-async function switchNetwork(){
-  try{
-    if(!window.ethereum) return setMsg("No wallet detected.");
-    await window.ethereum.request({
-      method:"wallet_switchEthereumChain",
-      params:[{ chainId:"0x38" }] // BSC Mainnet
-    });
-    setMsg("");
-  }catch(e){
-    setMsg(e?.message || "Failed to switch network.");
-  }
-}
+let provider,signer,staking,token,user,decimals;
 
 async function connect(){
-  try{
-    setMsg("");
-    if(!window.ethereum) return setMsg("No wallet detected. Use MetaMask/TrustWallet.");
-    provider=new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts",[]);
-    signer=provider.getSigner();
-    user=await signer.getAddress();
-    staking=new ethers.Contract(STAKING_ADDRESS,stakingABI,signer);
-    token=new ethers.Contract(TOKEN_ADDRESS,erc20ABI,signer);
-    decimals=await token.decimals();
-
-    document.getElementById("walletAddr").innerText = user;
-    setStatus(true, "Connected");
-    await load();
-  }catch(e){
-    setMsg(e?.message || "Connect failed.");
-  }
-}
-
-function toDate(ts){
-  if(!ts || ts==0) return "-";
-  return new Date(Number(ts)*1000).toLocaleDateString();
+ provider=new ethers.providers.Web3Provider(window.ethereum);
+ await provider.send("eth_requestAccounts",[]);
+ signer=provider.getSigner();
+ user=await signer.getAddress();
+ staking=new ethers.Contract(STAKING_ADDRESS,stakingABI,signer);
+ token=new ethers.Contract(TOKEN_ADDRESS,erc20ABI,signer);
+ decimals=await token.decimals();
+ load();
 }
 
 async function approve(){
-  try{
-    setMsg("");
-    if(!token) return setMsg("Connect wallet first.");
-    const amt=document.getElementById("amount").value.trim();
-    if(!amt) return setMsg("Enter amount.");
-    const raw = ethers.utils.parseUnits(amt, decimals);
-    const tx = await token.approve(STAKING_ADDRESS, raw);
-    setMsg("Approve sent. Waiting confirmation...");
-    await tx.wait();
-    setMsg("Approve confirmed ✅");
-  }catch(e){
-    setMsg(e?.message || "Approve failed.");
-  }
+ const amt=document.getElementById("amount").value;
+ const raw=ethers.utils.parseUnits(amt,decimals);
+ await token.approve(STAKING_ADDRESS,raw);
 }
 
 async function stake(){
-  try{
-    setMsg("");
-    if(!staking) return setMsg("Connect wallet first.");
-    const pid=document.getElementById("pool").value;
-    const amt=document.getElementById("amount").value.trim();
-    if(!amt) return setMsg("Enter amount.");
-    const raw = ethers.utils.parseUnits(amt, decimals);
-    const tx = await staking.stake(pid, raw);
-    setMsg("Stake sent. Waiting confirmation...");
-    await tx.wait();
-    setMsg("Stake confirmed ✅");
-    await load();
-  }catch(e){
-    setMsg(e?.message || "Stake failed.");
-  }
+ const pid=document.getElementById("pool").value;
+ const amt=document.getElementById("amount").value;
+ const raw=ethers.utils.parseUnits(amt,decimals);
+ await staking.stake(pid,raw);
+ load();
 }
 
 async function withdraw(){
-  try{
-    setMsg("");
-    if(!staking) return setMsg("Connect wallet first.");
-    const pid=document.getElementById("pool").value;
-    const tx = await staking.withdraw(pid);
-    setMsg("Withdraw sent. Waiting confirmation...");
-    await tx.wait();
-    setMsg("Withdraw confirmed ✅");
-    await load();
-  }catch(e){
-    setMsg(e?.message || "Withdraw failed (likely still locked).");
-  }
+ const pid=document.getElementById("pool").value;
+ await staking.withdraw(pid);
+ load();
 }
 
 async function load(){
-  const pid=document.getElementById("pool").value;
-  const s=await staking.stakedAmount(pid, user);
-  document.getElementById("staked").innerText = ethers.utils.formatUnits(s, decimals) + " JF";
-  const t=await staking.unlockTimeOf(pid, user);
-  document.getElementById("unlock").innerText = toDate(t);
+ const pid=document.getElementById("pool").value;
+ const s=await staking.stakedAmount(pid,user);
+ document.getElementById("staked").innerText=ethers.utils.formatUnits(s,decimals)+" JF";
+ const t=await staking.unlockTimeOf(pid,user);
+ document.getElementById("unlock").innerText=new Date(t*1000).toLocaleDateString();
 }
-
-document.getElementById("pool").addEventListener("change", ()=>{ if(staking) load(); });
 </script>
 </body>
 </html>
