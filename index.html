@@ -15,8 +15,6 @@
   --gold1:#F5D06F;
   --gold2:#B88B2A;
   --blue:#3B82F6;
-  --bad:#EF4444;
-  --ok:#10B981;
 }
 
 *{box-sizing:border-box}
@@ -41,8 +39,7 @@ body{
 .topbar{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  gap:14px;
   margin-bottom:16px;
 }
 
@@ -62,32 +59,21 @@ body{
   box-shadow:0 12px 35px rgba(245,208,111,.35);
 }
 
-.brand h1{
-  margin:0;
-  font-size:18px;
-}
-
-.brand p{
-  margin:4px 0 0;
-  font-size:12px;
-  color:var(--muted);
-}
+.brand h1{margin:0;font-size:18px}
+.brand p{margin:4px 0 0;font-size:12px;color:var(--muted)}
 
 .grid{
   display:grid;
   grid-template-columns:1.05fr .95fr;
   gap:14px;
 }
-@media(max-width:860px){
-  .grid{grid-template-columns:1fr}
-}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
 
 .card{
   background:var(--panel);
   border:1px solid var(--stroke);
   border-radius:18px;
   padding:16px;
-  backdrop-filter:blur(10px);
 }
 
 .card h2{
@@ -98,14 +84,7 @@ body{
   color:rgba(245,208,111,.92);
 }
 
-.hr{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
-
-label{
-  display:block;
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
 
 input,select{
   width:100%;
@@ -125,21 +104,9 @@ input,select{
   cursor:pointer;
 }
 
-.btn.primary{
-  background:linear-gradient(135deg,var(--gold1),var(--gold2));
-  color:#111;
-}
-
-.btn.soft{
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.10);
-}
-
-.btn.blue{
-  background:linear-gradient(135deg,#60A5FA,#2563EB);
-  color:#fff;
-}
+.btn.primary{background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#111}
+.btn.soft{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.10)}
+.btn.blue{background:linear-gradient(135deg,#60A5FA,#2563EB);color:#fff}
 
 .notice{
   font-size:12px;
@@ -164,7 +131,7 @@ input,select{
 }
 
 .small{font-size:12px;color:var(--muted)}
-.mono{font-family:monospace}
+.mono{font-family:monospace;word-break:break-all}
 </style>
 </head>
 
@@ -186,8 +153,7 @@ input,select{
 <div class="card">
   <h2>Wallet</h2>
   <button class="btn primary" onclick="connect()">Connect Wallet</button>
-  <div class="hr"></div>
-  <div class="notice">
+  <div style="margin-top:10px" class="notice">
     Rewards are fixed. This page shows unlock date only.
   </div>
 </div>
@@ -210,9 +176,7 @@ input,select{
   <button class="btn soft" style="margin-top:10px" onclick="approve()">Approve</button>
   <button class="btn blue" style="margin-top:8px" onclick="stake()">Stake</button>
 
-  <div class="hr"></div>
-
-  <h2>Your Position</h2>
+  <h2 style="margin-top:16px">Your Position</h2>
   <div class="kv">
     <div class="small">Staked</div><div id="staked">-</div>
     <div class="small">Unlock date</div><div id="unlock">-</div>
@@ -222,12 +186,34 @@ input,select{
 </div>
 
 </div>
+
+<!-- 🔐 ANTI-FAKE SECURITY PROOF -->
+<div style="
+  max-width:980px;
+  margin:28px auto 0;
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(245,208,111,.08);
+  border:1px dashed rgba(245,208,111,.45);
+  color:#f5e7b2;
+  font-size:13px;
+">
+  <strong>Official JF Staking Contract</strong><br>
+  <span class="mono">
+    0x23ebc035F733fdb99c8248B2b22C351AD9207998
+  </span>
+  <br><br>
+  Always verify the contract address before staking.<br>
+  Any other website or address is <strong>NOT official</strong>.
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script>
 const STAKING_ADDRESS="0x23ebc035F733fdb99c8248B2b22C351AD9207998";
 const TOKEN_ADDRESS="0x2338c5AD75967dAC2fF988FC3488109eC2406dfE";
+
 const stakingABI=[
 "function stake(uint256,uint256)",
 "function withdraw(uint256)",
